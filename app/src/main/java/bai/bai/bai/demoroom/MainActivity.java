@@ -8,11 +8,16 @@ import android.widget.EditText;
 
 import java.util.List;
 
+/**
+ * 一篇不错的关于room的博客：https://blog.csdn.net/l_o_s/article/details/79346426
+ */
 public class MainActivity extends Activity implements View.OnClickListener {
 
     private int mUid = 1;
     private EditText mEtFirstName;
     private EditText mEtLastName;
+
+    private TestUserDao mTestUserDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btn_delete).setOnClickListener(this);
         findViewById(R.id.btn_update).setOnClickListener(this);
         findViewById(R.id.btn_query).setOnClickListener(this);
+
+        mTestUserDao = TestUserDatabase
+                .getInstance(MainActivity.this)
+                .getTestUserDao();
 
 
     }
@@ -64,10 +73,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //                user.setUid(mUid);
                 user.setFirstName(mEtFirstName.getText().toString());
                 user.setLastName(mEtLastName.getText().toString());
-                TestUserDatabase
-                        .getInstance(MainActivity.this)//获得dataBase数据库对象
-                        .getTestUserDao()//获得DAO对象
-                        .insertUser(user);//调用DAO里的对数据库的增删改查方法
+                mTestUserDao.insertUser(user);//调用DAO里的对数据库的增删改查方法
                 mUid++;
             }
         }).start();
@@ -80,11 +86,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 TestUser user = new TestUser();
                 user.setUid(mUid);//测试的是只要主键对了就行，其他域不做校验
                 user.setFirstName(mEtFirstName.getText().toString());
-//                user.setLastName(mEtLastName.getText().toString());
-                TestUserDatabase
-                        .getInstance(MainActivity.this)
-                        .getTestUserDao()
-                        .deleteUser(user);
+                mTestUserDao.deleteUser(user);
                 mUid++;
             }
         }).start();
@@ -95,14 +97,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void run() {
                 TestUser user = new TestUser();
-                user.setUid(2);//通过主键找到数据并修改
+                user.setUid(2);//直接通过主键找到数据并修改
                 user.setFirstName(mEtFirstName.getText().toString());
-//                user.setLastName(mEtLastName.getText().toString());
-                TestUserDatabase
-                        .getInstance(MainActivity.this)
-                        .getTestUserDao()
-                        .updateUser(user);
-                mUid++;
+                mTestUserDao.updateUser(user);
             }
         }).start();
     }
@@ -112,14 +109,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void run() {
                 //如果是数据库中有多个比配的数据，会返回第一个，如果第一个被删除，则返回第二个
-                TestUser user = TestUserDatabase
-                        .getInstance(MainActivity.this)
-                        .getTestUserDao()
-                        .findUserByName("bai", "yun");
-                List<TestUser> users = TestUserDatabase
-                        .getInstance(MainActivity.this)
-                        .getTestUserDao()
-                        .getAlls();
+                TestUser user = mTestUserDao.findUserByName("白", "云");
+                List<TestUser> users = mTestUserDao.getAll();
                 Log.d("baibai", "查询结果：" + user);
                 Log.d("baibai", "查询所有结果：" + users);
                 Log.e("baibai", "长度：" + users.size());

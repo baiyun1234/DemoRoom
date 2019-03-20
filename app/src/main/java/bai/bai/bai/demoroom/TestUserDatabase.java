@@ -41,7 +41,7 @@ public abstract class TestUserDatabase extends RoomDatabase {
      */
     private static TestUserDatabase create(final Context context) {
         return Room.databaseBuilder(
-                context,
+                context.getApplicationContext(),//防止内存泄漏
                 TestUserDatabase.class,
                 DB_NAME)
                 .build();
