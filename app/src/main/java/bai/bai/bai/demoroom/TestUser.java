@@ -62,7 +62,9 @@ public class TestUser {
      * 这样表格里的域名就是CN_longitude,CN_latitude,UK_longitude,UK_latitude
      */
     @Embedded
-    public Address address;
+    private Address address;
+
+    private int age;//新添加的age字段
 
     //region 这里的getter和setter方法是必须的
     public int getUid() {
@@ -105,6 +107,14 @@ public class TestUser {
         this.address = address;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     //endregion
 
     @Override
@@ -123,9 +133,42 @@ public class TestUser {
  * 自定义类
  */
 class Address {
-    public String state;
-    public String city;
+    private String state;
+    private String city;
 
     @ColumnInfo(name = "post_code")
-    public int postCode;
+    private int postCode;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(int postCode) {
+        this.postCode = postCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", postCode=" + postCode +
+                '}';
+    }
 }

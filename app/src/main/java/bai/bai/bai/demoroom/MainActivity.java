@@ -73,6 +73,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //                user.setUid(mUid);
                 user.setFirstName(mEtFirstName.getText().toString());
                 user.setLastName(mEtLastName.getText().toString());
+                Address address = new Address();
+                address.setCity("北京");
+                address.setPostCode(3);
+                user.setAddress(address);
                 mTestUserDao.insertUser(user);//调用DAO里的对数据库的增删改查方法
                 mUid++;
             }
