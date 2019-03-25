@@ -94,6 +94,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 mUid++;
             }
         }).start();
+
     }
 
     private void update() {
@@ -115,9 +116,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 //如果是数据库中有多个比配的数据，会返回第一个，如果第一个被删除，则返回第二个
                 TestUser user = mTestUserDao.findUserByName("白", "云");
                 List<TestUser> users = mTestUserDao.getAll();
+                List<TestUser> usersIncludeBai = mTestUserDao.getUserByFirstName("bai");
                 Log.d("baibai", "查询结果：" + user);
                 Log.d("baibai", "查询所有结果：" + users);
                 Log.e("baibai", "长度：" + users.size());
+                Log.e("baibai", "包含bai的数据：" + usersIncludeBai);
             }
         }).start();
     }

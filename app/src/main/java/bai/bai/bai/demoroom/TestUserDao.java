@@ -22,6 +22,10 @@ public interface TestUserDao {
     @Query("select * from testuser where firstName like :first and " + "last_name like :last limit 1")
     TestUser findUserByName(String first, String last);
 
+//    @Query("select * from testuser where firstName in :firstNames")
+    @Query("select * from testuser where firstName like :firstName")
+    List<TestUser> getUserByFirstName(String firstName);
+
     @Insert
     void insertUser(TestUser... user);
 
